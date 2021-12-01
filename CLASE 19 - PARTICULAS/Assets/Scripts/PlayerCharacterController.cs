@@ -14,6 +14,8 @@ public class PlayerCharacterController : MonoBehaviour
     [SerializeField] private Vector3 velocity;
     [SerializeField] private Transform cam;
     [SerializeField] private float mouseSensitivity = 2f;
+    [SerializeField] private GameObject trailPlayer;
+    [SerializeField] private ParticleSystem fireParticle;
 
     //PRIVATE COMPONENTS REFERENCE
     [SerializeField] private Animator animPlayer;
@@ -29,6 +31,8 @@ public class PlayerCharacterController : MonoBehaviour
         cc = GetComponent<CharacterController>();
         animPlayer.SetBool("isRun", false);
         onLivesChange?.Invoke(lifePlayer);
+        trailPlayer.SetActive(true);
+        //fireParticle.Stop();
     }
     void Update()
     {
@@ -54,6 +58,15 @@ public class PlayerCharacterController : MonoBehaviour
         //APLICAR GRAVEDAD
         velocity.y += Gravity * Time.deltaTime;
         cc.Move(velocity * Time.deltaTime);
+
+        if (cc.isGrounded)
+        {
+            trailPlayer.SetActive(true);
+        }
+        else
+        {
+            trailPlayer.SetActive(false);
+        }
     }
 
 
@@ -81,26 +94,17 @@ public class PlayerCharacterController : MonoBehaviour
         {
             animPlayer.SetBool("isRun", false);
         }
-        /* FIX CHILD POSITION
+        // FIX CHILD POSITION
         animPlayer.gameObject.transform.position = transform.position;
         animPlayer.gameObject.transform.rotation = transform.rotation;
-        */
     }
-
+    /*
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log(collision.gameObject.name);
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            lifePlayer--;
-            Destroy(collision.gameObject);
-            onLivesChange?.Invoke(lifePlayer);
-            if (lifePlayer == 0)
-            {
-                onDeath?.Invoke();
-            }
-        }
+       
     }
+    */
 
     private void OnTriggerEnter(Collider other)
     {
@@ -110,16 +114,28 @@ public class PlayerCharacterController : MonoBehaviour
             onLivesChange?.Invoke(lifePlayer);
             Destroy(other.gameObject);
         }
+
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            lifePlayer--;
+            Destroy(other.gameObject);
+            onLivesChange?.Invoke(lifePlayer);
+            if (lifePlayer == 0)
+            {
+                onDeath?.Invoke();
+            }
+        }
+
     }
 
-    /*
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
+        Debug.Log(hit.gameObject.name);
         if (hit.gameObject.CompareTag("Ground"))
         {
             Debug.Log("ESTOY EN EL PISO");
         }
     }
-    */
+    
 
 }

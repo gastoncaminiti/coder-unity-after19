@@ -16,6 +16,8 @@ public class CannonController : MonoBehaviour
     private bool  canShoot = true;
     [SerializeField]  private bool  isActive = true;
 
+    [SerializeField] private ParticleSystem shootParticle;
+
     /*
     [SerializeField] private GameObject p1;
     [SerializeField] private GameObject p2;
@@ -25,8 +27,8 @@ public class CannonController : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(RotateBehavior());
-        StartCoroutine(WaypointsBehavior());
+        //StartCoroutine(RotateBehavior());
+        //StartCoroutine(WaypointsBehavior());
     }
 
     // Update is called once per frame
@@ -107,6 +109,7 @@ public class CannonController : MonoBehaviour
                 timerShoot = 0;
                 GameObject b = Instantiate(bulletPrefab, shootOrigen.transform.position, bulletPrefab.transform.rotation);
                 b.GetComponent<Rigidbody>().AddForce(shootOrigen.transform.TransformDirection(Vector3.forward) * 10f, ForceMode.Impulse);
+                shootParticle.Play();
             }
         }
 

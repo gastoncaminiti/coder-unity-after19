@@ -18,16 +18,14 @@ public class HUDController : MonoBehaviour
 
     private void Awake()
     {
-        PlayerController.onLivesChange += OnLivesChangeHandler;
-        //PlayerCharacterController.onLivesChange += OnLivesChangeHandler;
+        
+        PlayerCharacterController.onLivesChange += OnLivesChangeHandler;
     }
 
     void Start()
     {
-         //GameObject.Find("Player").GetComponent<PlayerController>().onDeath += OnDeadHandler;
-        PlayerEvents.onDeath += OnDeadHandler;
-        //PlayerController.onLivesChange += OnLivesChangeHandler;
-     }
+        PlayerController.onLivesChange += OnLivesChangeHandler;
+    }
 
     public void OnDeadHandler()
     {
