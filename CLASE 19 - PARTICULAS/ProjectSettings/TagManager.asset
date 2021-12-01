@@ -42,7 +42,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - floorMask
   m_SortingLayers:
   - name: Default
     uniqueID: 0

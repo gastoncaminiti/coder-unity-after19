@@ -19,6 +19,7 @@ public class HUDController : MonoBehaviour
     private void Awake()
     {
         PlayerController.onLivesChange += OnLivesChangeHandler;
+        //PlayerCharacterController.onLivesChange += OnLivesChangeHandler;
     }
 
     void Start()
